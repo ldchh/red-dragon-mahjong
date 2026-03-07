@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>红中麻将</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/tiles.css">
+    <link rel="stylesheet" href="/static/ting.css">
+    <link rel="stylesheet" href="/static/melds.css">
+</head>
+<body>
+    <div id="rotate-tip">请横屏体验游戏</div>
+    <div id="boot-loading">
+        <div class="boot-logo">🀄 红中麻将</div>
+        <div class="boot-tiles" aria-hidden="true">
+            <span>🀇</span><span>🀈</span><span>🀉</span><span>🀄</span>
+        </div>
+        <div class="boot-ring"></div>
+        <div id="boot-loading-text">正在连接牌桌</div>
+        <div id="boot-loading-sub">正在洗牌与同步对局状态</div>
+    </div>
+    <div id="app">
+        <div id="cut-in-container"></div>
+        <div id="results-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Game Over</h2>
+                <div id="score-list"></div>
+                <button id="result-btn" class="restart-btn">关闭</button>
+            </div>
+        </div>
+        <div id="rank-screen" class="modal hidden">
+            <div class="modal-content rank-modal-content">
+                <h2>段位变化</h2>
+                <div id="rank-change-summary"></div>
+                <div id="rank-badge-large"></div>
+                <div id="rank-change-stars"></div>
+                <div id="rank-change-tip"></div>
+                <button id="rank-confirm-btn" class="restart-btn hidden">确认返回大厅</button>
+            </div>
+        </div>
+
+        <div id="lobby" class="screen">
+            <h1>红中麻将</h1>
+            <div class="lobby-slogan">让五湖四海的湖南人都能打到红中麻将</div>
+            <div class="lobby-author">作者:锂电池</div>
+            <div id="rank-panel">
+                <div id="rank-icon"></div>
+                <div id="rank-text-wrap">
+                    <div id="rank-text"></div>
+                    <button id="rank-help-btn" type="button">!</button>
+                </div>
+                <div id="rank-stars"></div>
+            </div>
+            <div id="rank-note">
+                注意事项：无人数限制（任意真人/人机组合），局数为10/15/20局且整场结束时，结算都计入段位分。
+            </div>
+            <div id="rank-help-panel" class="hidden">
+                <div id="rank-help-title">段位规则说明</div>
+                <div id="rank-help-content"></div>
+                <button id="rank-help-close" type="button">关闭</button>
+            </div>
+            <div class="form-group">
+                <label>昵称</label>
+                <input type="text" id="username" placeholder="输入昵称">
+            </div>
+            <div class="form-group avatar-pick">
+                <label>选择头像</label>
+                <div id="avatar-options">
+                    <button class="avatar-option selected" data-avatar="1" type="button">熊猫</button>
+                    <button class="avatar-option" data-avatar="2" type="button">青龙</button>
+                    <button class="avatar-option" data-avatar="3" type="button">麒麟</button>
+                    <button class="avatar-option" data-avatar="4" type="button">锦鲤</button>
+                    <button class="avatar-option" data-avatar="5" type="button">雄鹰</button>
+                </div>
+            </div>
+            <div id="lobby-main-actions">
+                <button id="create-entry-btn">创建房间</button>
+                <button id="join-entry-btn">加入房间</button>
+            </div>
+            <div id="create-panel" class="hidden">
+                <label for="rounds-select">局数</label>
+                <select id="rounds-select">
+                    <option value="1">1局</option>
+                    <option value="5">5局</option>
+                    <option value="10">10局</option>
+                    <option value="15">15局</option>
+                    <option value="20">20局</option>
+                </select>
+                <button id="create-btn">确认创建</button>
+            </div>
+            <div id="join-panel" class="hidden">
+                <input type="text" id="room-code-input" placeholder="输入房间号">
+                <button id="join-btn">确认加入</button>
+            </div>
+            <button id="start-btn" class="hidden">开始游戏</button>
+            <button id="leave-btn" class="hidden">退出房间</button>
+            <p id="status-msg">连接中...</p>
+        </div>
+
+        <div id="game-screen" class="screen hidden">
+            <div class="table">
+                <!-- Top Player (Opponent 2) -->
+                <div id="player-2" class="player top">
+                    <div class="avatar"></div>
+                    <div class="hand-back"></div>
+                    <div class="melds"></div>
+                    <div class="discards"></div>
+                </div>
+
+                <!-- Left Player (Opponent 3) -->
+                <div id="player-3" class="player left">
+                    <div class="avatar"></div>
+                    <div class="hand-back"></div>
+                    <div class="melds"></div>
+                    <div class="discards"></div>
+                </div>
+
+                <!-- Right Player (Opponent 1) -->
+                <div id="player-1" class="player right">
+                    <div class="avatar"></div>
+                    <div class="hand-back"></div>
+                    <div class="melds"></div>
+                    <div class="discards"></div>
+                </div>
+
+                <!-- Center Info -->
+                <div class="center-info">
+                    <div id="wall-info">Remaining: <span id="wall-count">0</span></div>
+                    <div id="turn-info">Turn: <span id="current-turn"></span></div>
+                    <div id="round-info">第0/0局</div>
+                    <div id="msg-area"></div>
+                </div>
+                <div id="reveal-center" class="hidden"></div>
+
+                <!-- My Player (Player 0 - relative to me) -->
+                <div id="player-0" class="player bottom">
+                    <div class="discards"></div>
+                    <div class="melds" id="my-melds"></div>
+                    <div class="hand" id="my-hand"></div>
+                    
+                    <div id="ting-status" class="hidden">
+                        <button class="ting-btn">听</button>
+                        <div class="ting-tooltip"></div>
+                    </div>
+
+                    <div id="actions-panel" class="hidden">
+                        <button id="btn-hu" class="action-btn">胡</button>
+                        <button id="btn-gang" class="action-btn">杠</button>
+                        <button id="btn-peng" class="action-btn">碰</button>
+                        <button id="btn-pass" class="action-btn secondary">过</button>
+                    </div>
+                </div>
+                <div id="quick-chat-wrap">
+                    <button id="quick-chat-btn" type="button">💬</button>
+                    <div id="quick-chat-panel" class="hidden"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Templates for Tiles -->
+    <template id="tile-template">
+        <div class="tile">
+            <div class="face"></div>
+        </div>
+    </template>
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="/static/script.js" type="module"></script>
+</body>
+</html>

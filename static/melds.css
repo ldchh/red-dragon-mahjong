@@ -1,0 +1,7 @@
+.meld-group {
+    display: flex;
+    margin-right: 10px;
+    background: rgba(0,0,0,0.2);
+    padding: 2px;
+    border-radius: 4px;
+}
