@@ -1,0 +1,122 @@
+/* Ivory face + a physical two-colour body. One shadow and one pseudo per tile. */
+.tile {
+    --tw: 34px; --th: calc(var(--tw) * 1.36); --r: calc(var(--tw) * .10);
+    --ivory: #f8f4e8; --ivory-2: #ebe3cf; --ivory-side: #ddd3b8;
+    --back: var(--tile-back-color,#e29936); --back-2: var(--tile-back-dark,#b66c18);
+    position:relative; flex:0 0 auto; display:block; width:var(--tw); height:calc(var(--th) + var(--tk));
+    padding:0; margin:0; border:0; border-radius:var(--r); background:none; box-shadow:none;
+    user-select:none; -webkit-user-select:none; cursor:default; transition:transform .16s;
+}
+.tile-body,.tile-face { position:absolute; left:0; right:0; border-radius:var(--r); pointer-events:none; }
+.tile-face {
+    overflow:hidden; height:calc(100% - var(--tk)); border:1px solid #c8bb9a;
+    background:radial-gradient(130% 90% at 28% 12%,#fffefb 0%,transparent 55%),
+        linear-gradient(172deg,var(--ivory),#f3eddc 62%,var(--ivory-2));
+}
+/* The optional raster ground is below the untouched ink. Rotate this layer
+   alone; flat horizontal faces retain the same local aspect ratio. */
+.tile:not(.tile-back) .tile-face::before {
+    content:var(--tile-face-layer,none);position:absolute;inset:0;
+    background:var(--tile-face-background,none);pointer-events:none;
+}
+.tile[data-rot="180"]:not(.tile-back) .tile-face::before {transform:rotate(180deg);}
+.tile--flat:is([data-rot="90"],[data-rot="270"]) .tile-face::before {
+    inset:auto;left:50%;top:50%;width:var(--tw);height:var(--th);
+    transform:translate(-50%,-50%) rotate(90deg);
+}
+.tile--flat[data-rot="270"] .tile-face::before {transform:translate(-50%,-50%) rotate(270deg);}
+/* Keep the existing physical contact shading above the new opaque ground.
+   This overlay has no paint over the ink apart from the unchanged edge shade. */
+.tile:not(.tile-back) .tile-face::after {
+    content:var(--tile-face-layer,none);position:absolute;inset:0;
+    border-radius:inherit;box-shadow:inherit;pointer-events:none;
+}
+.tile-art { position:absolute; inset:2%; width:96%; height:96%; object-fit:contain; pointer-events:none; user-select:none; }
+.tile--stand,.tile--back-stand { --tk:calc(var(--tw) * .14); }
+.tile--stand .tile-face,.tile--back-stand .tile-face { bottom:0; }
+.tile--stand .tile-body,.tile--back-stand .tile-body {
+    top:0; height:calc(var(--tk) + var(--r) * 2);
+    background:linear-gradient(180deg,var(--back) 0 24%,var(--back-2) 24% 30%,var(--ivory-side) 30%);
+}
+.tile--stand::after,.tile--back-stand::after {
+    content:"";position:absolute;left:5%;right:5%;bottom:-4px;height:6px;border-radius:50%;
+    background:radial-gradient(closest-side,#0006,transparent);z-index:-1;pointer-events:none;
+}
+.tile--flat .tile-face,.tile--back-flat .tile-face { top:0; }
+.tile--flat,.tile--back-flat {
+    box-shadow:0 1px 0 #0007,calc(var(--tw)*.05) calc(var(--tw)*.11) calc(var(--tw)*.16) #0006;
+}
+.tile--flat .tile-face,.tile--back-flat .tile-face {
+    border:0;
+    background:linear-gradient(180deg,#fffdf6 0%,#f7f1e2 62%,#ece3cd 100%);
+    box-shadow:inset 0 1px 0 #fff,inset 1px 0 0 #ffffffb0,inset -1px 0 0 #bfae8a80,
+        inset 0 calc(var(--tw)*-.05) calc(var(--tw)*.06) #b8a6806b;
+}
+.tile--flat .tile-body,.tile--back-flat .tile-body {
+    top:0;bottom:0;height:auto;
+    background-color:#ece4cf;
+    /* Pin the material to the actual tk band, not the full body height. */
+    background-image:linear-gradient(180deg,#a8987380 0 1px,#ece4cf 1px,#d9ccae 52%,
+        #ffffff59 52%,#ffffff59 calc(52% + 1px),var(--back) calc(52% + 1px),var(--back-2) 100%);
+    background-size:100% var(--tk);background-position:bottom;background-repeat:no-repeat;
+    box-shadow:none;
+}
+.tile:is(.tile--flat,.tile--back-flat):is([data-rot="90"],[data-rot="270"]) { width:var(--th);height:calc(var(--tw) + var(--tk)); }
+.tile[data-rot="180"] .tile-art { transform:rotate(180deg); }
+.tile:is([data-rot="90"],[data-rot="270"]) .tile-art {
+    inset:auto;left:50%;top:50%;width:calc(var(--tw) * .96);height:calc(var(--th) * .96);
+    transform:translate(-50%,-50%) rotate(90deg);
+}
+.tile[data-rot="270"] .tile-art { transform:translate(-50%,-50%) rotate(270deg); }
+.tile--back-stand .tile-face,.tile--back-flat .tile-face {
+    border-color:var(--back-2);
+    background:radial-gradient(120% 80% at 30% 15%,#ffffff32,transparent 60%),linear-gradient(170deg,var(--back),var(--back-2));
+}
+.tile-back .tile-face { outline:1px solid #ffffff33; outline-offset:-4px; }
+.tile--back-flat .tile-face {background:linear-gradient(170deg,var(--back),var(--back-2));outline-offset:-3px;}
+/* Texture stays on the real back, separate from the original body and sides. */
+.tile-back-art {position:absolute;inset:0;background-image:var(--tile-back-image,none);background-size:100% 100%;background-repeat:no-repeat;pointer-events:none;}
+.tile-back[data-rot="180"] .tile-back-art {transform:rotate(180deg);}
+.tile--back-flat:is([data-rot="90"],[data-rot="270"]) .tile-back-art {
+    inset:auto;left:50%;top:50%;width:var(--tw);height:var(--th);transform:translate(-50%,-50%) rotate(90deg);
+}
+.tile--back-flat[data-rot="270"] .tile-back-art {transform:translate(-50%,-50%) rotate(270deg);}
+.tile-back .tile-face::after {content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inherit;pointer-events:none;}
+/* One pseudo per flat tile. The body lies below its opaque face. */
+:is(.tile--flat,.tile--back-flat) .tile-body::before {
+    content:"";position:absolute;top:0;bottom:0;width:var(--side-w,0);pointer-events:none;
+}
+:is(.tile--flat,.tile--back-flat)[data-side="right"] .tile-body::before {
+    left:100%;border-radius:0 var(--r) var(--r) 0;
+    background:linear-gradient(90deg,#d9ccae 0 52%,var(--back) 52% 100%);
+}
+:is(.tile--flat,.tile--back-flat)[data-side="left"] .tile-body::before {
+    right:100%;border-radius:var(--r) 0 0 var(--r);
+    background:linear-gradient(270deg,#d9ccae 0 52%,var(--back) 52% 100%);
+}
+.tile.interactive {cursor:pointer;}
+.hand .tile.interactive:is(:hover,:focus-visible),.hand .tile--selected {transform:translateY(calc(var(--th) * -.18));z-index:3;outline:none;}
+.hand .tile.interactive:is(:hover,:focus-visible) .tile-face,.ting-card-glow .tile-face {
+    outline:2px solid var(--table-ui-accent,#e6c86e);outline-offset:-2px;
+}
+.hand.pending {pointer-events:none;}
+.hand.pending .tile {cursor:default;}
+.tile--small {--tw:30px;}
+.tile--drawn {margin-left:calc(var(--tw) * .38);}
+.ting-card-glow {filter:none;}
+.ting-card-glow::after {content:"";position:absolute;right:3px;top:3px;width:6px;height:6px;border-radius:50%;background:#e6c86e;pointer-events:none;}
+.tile.dealing {animation:dealSlide .22s ease-out both;}
+.tile.discarding {pointer-events:none;}
+@keyframes dealSlide {from{transform:translate(var(--deal-x,0px),var(--deal-y,-15px));opacity:0}to{transform:translate(0,0);opacity:1}}
+/* Each region owns only a width; pose owns its height and thickness. */
+.hand .tile {--tw:var(--hand-w);}
+.discards .tile,.melds .tile,.hand-back .tile {--tw:var(--river-w,30px);}
+.ting-tooltip .tile {--tw:30px;}
+@media(max-width:680px){.ting-tooltip .tile {--tw:25px;}}
+#reveal-center .tile {--tw:36px;}
+@media(prefers-reduced-motion:reduce){.tile,.tile.dealing{animation:none;transition:none}}
+.seat-plane:not([data-rel="0"]) .hand-back .tile-back {visibility:hidden;}
+.standing-walls {position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;overflow:visible;}
+.sw-deal {animation:standing-deal .22s ease-out;}
+@keyframes standing-deal {from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+@media (prefers-reduced-motion:reduce){.sw-deal{animation:none;}}

@@ -1,0 +1,15 @@
+body.offline-mode #lobby-main-actions,
+body.offline-mode #copy-room-btn { display: none; }
+body.offline-mode .offline-difficulty {display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:4px 12px;margin:8px 0 0;}
+body.offline-mode .offline-difficulty label {display:block;font-size:12px;color:#505b47;}
+body.offline-mode .offline-difficulty output {display:block;width:100%;min-height:44px;background:#fffaf0;color:#35473b;border:1px solid #c7b88f;border-radius:8px;padding:8px;font-family:var(--body);}
+body.offline-mode .offline-difficulty .pf-note {grid-column:2;margin:0;}
+#offline-sheet #rank-note {margin:8px 0 0;color:#565f4d;}
+#offline-sheet .room-columns .btn-gold {margin-top:12px;}
+@media(max-height:419px){#offline-sheet .room-columns .btn-gold{margin-top:8px;}}
+.offline-storage-error {
+    position: fixed; inset: 0; z-index: 10000; padding: 32px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: #173f38; color: #f5ebd4; text-align: center;
+}
+.offline-storage-error p { max-width: 360px; line-height: 1.8; margin: 12px 0 28px; }

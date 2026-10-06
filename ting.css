@@ -1,0 +1,83 @@
+#ting-status {
+    position: absolute;
+    bottom: 120px;
+    right: 50px;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    z-index: 20;
+}
+
+.ting-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #e74c3c;
+    color: white;
+    border: 3px solid #fff;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    font-family: "KaiTi", serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ting-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    background: rgba(0,0,0,0.9);
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 42px);
+    gap: 10px;
+    max-width: 360px;
+    max-height: 220px;
+    overflow: auto;
+    transition: opacity 0.2s;
+    border: 1px solid #e74c3c;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.55);
+}
+
+#ting-status:hover .ting-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+#ting-status.open .ting-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.ting-tooltip .tile {
+    width: 34px;
+    height: 46px;
+}
+
+@media (max-width: 768px) {
+    #ting-status {
+        right: 36px;
+        bottom: 92px;
+    }
+    .ting-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        border-width: 2px;
+    }
+    .ting-tooltip {
+        max-width: 220px;
+        max-height: 140px;
+        grid-template-columns: repeat(auto-fill, 32px);
+        gap: 6px;
+        padding: 8px;
+    }
+    .ting-tooltip .tile {
+        width: 26px;
+        height: 34px;
+    }
+}

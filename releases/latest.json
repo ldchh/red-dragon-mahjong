@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "packageId": "com.ldc.hongzhongmahjong",
+  "version": "1.9.20",
+  "versionCode": 210,
+  "minAndroid": 8,
+  "downloadUrl": "https://huggingface.co/spaces/mark060509/Ldc-Red-Dragon-Mahjong/resolve/main/releases/hongzhong-mahjong-1.9.20.apk?download=true",
+  "apkBytes": 13523932,
+  "sha256": "5348dfad639c13db7e69d6768410195d770fa86c9b0df68cd560189752bf38f7",
+  "notes": [
+    "新增「海贼王 · 红发香克斯」独立牌背：暗红底色、完整举刀姿态与鲜红刀光。",
+    "可免费预览，1张礼券永久解锁，已拥有者切换免费。",
+    "装扮预览提前准备并复用，点开更快；牌背与牌面、桌布自由搭配。"
+  ]
+}

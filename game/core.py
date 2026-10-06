@@ -1,5 +1,5 @@
 import secrets
-from .rules import RED_DRAGON, LUCKY_TILES, can_hu, get_ting_tiles
+from .rules import RED_DRAGON, LUCKY_TILES, can_hu, get_ting_tiles, is_valid_tile
 
 class MahjongGame:
     def __init__(self):
@@ -51,6 +51,9 @@ class MahjongGame:
 
     def get_self_actions(self, player_index):
         hand = self.players[player_index]
+        empty = {'hu': False, 'concealed_kong': [], 'add_kong': []}
+        if self.state != 'PLAYING' or self.turn != player_index or self.waiting_actions:
+            return empty
         if hand.count(RED_DRAGON) >= 4:
             return {
                 'hu': True,
@@ -59,20 +62,10 @@ class MahjongGame:
             }
         can_self_hu = False
         if len(hand) % 3 == 2 and (not self.hu_block_after_claim.get(player_index, False)):
-            if can_hu(hand):
-                can_self_hu = True
-            else:
-                last = self.last_draw.get(player_index)
-                if last is not None:
-                    base_hand = list(hand)
-                    try:
-                        base_hand.remove(last)
-                    except ValueError:
-                        base_hand = None
-                    if base_hand is not None and len(base_hand) % 3 == 1:
-                        ting = get_ting_tiles(base_hand)
-                        if (last in ting) or (last == RED_DRAGON and len(ting) > 0):
-                            can_self_hu = True
+            can_self_hu = can_hu(hand)
+
+        if len(hand) % 3 != 2 or not self.deck:
+            return {'hu': can_self_hu, 'concealed_kong': [], 'add_kong': []}
 
         concealed = []
         for t in set(hand):
@@ -118,6 +111,10 @@ class MahjongGame:
         self.banker_first_discard = None
         self.first_round_discards = {}
         self.kong_events = []
+        self.scores = {i: 0 for i in range(4)}
+        self.waiting_actions = {}
+        self.last_discard = None
+        self.last_discard_player = -1
         
         # Deal tiles
         # 13 tiles each, Banker gets 14th
@@ -182,7 +179,7 @@ class MahjongGame:
         if same or all_red or one_red_three_same:
             for p in range(4):
                 if p == self.banker:
-                    self.scores[p] -= 1
+                    self.scores[p] -= 3
                 else:
                     self.scores[p] += 1
 
@@ -234,14 +231,17 @@ class MahjongGame:
         for step in [1, 2, 3]:
             idx = (kong_player + step) % 4
             hand = self.players[idx]
-            if len(hand) % 3 != 1:
+            if len(hand) % 3 != 1 or self.hu_block_after_claim.get(idx, False):
                 continue
-            ting = get_ting_tiles(hand)
+            ting = get_ting_tiles(hand, self.get_meld_tiles(idx))
             if tile in ting:
                 return idx
         return None
         
     def discard_tile(self, player_index, tile):
+        if (self.state != 'PLAYING' or self.turn != player_index or self.waiting_actions
+                or len(self.players[player_index]) % 3 != 2 or not is_valid_tile(tile)):
+            return False
         if tile in self.players[player_index]:
             self.players[player_index].remove(tile)
             self.players[player_index].sort(key=self.tile_sort_key)
@@ -268,6 +268,25 @@ class MahjongGame:
         """
         Execute an action (Pong, Kong)
         """
+        if self.state != 'PLAYING' or not is_valid_tile(tile):
+            return False
+        hand = self.players[player_index]
+        if action_type in ('pong', 'kong'):
+            needed = 2 if action_type == 'pong' else 3
+            source = self.last_discard_player
+            if (source not in range(4) or source == player_index or self.last_discard != tile
+                    or not self.discards[source] or self.discards[source][-1] != tile
+                    or hand.count(tile) < needed or len(hand) % 3 != 1):
+                return False
+            if action_type == 'kong' and (tile == RED_DRAGON or not self.deck):
+                return False
+        elif action_type in ('add_kong', 'concealed_kong'):
+            allowed = self.get_self_actions(player_index)
+            if tile not in allowed[action_type]:
+                return False
+        else:
+            return False
+
         if action_type == 'pong':
             # Remove 2 tiles from hand
             self.players[player_index].remove(tile)
@@ -328,7 +347,7 @@ class MahjongGame:
                     
             self.turn = player_index
             self.draw_tile(player_index, from_tail=True)
-            
+
         elif action_type == 'concealed_kong':
             # An Gang
             for _ in range(4):
@@ -345,6 +364,9 @@ class MahjongGame:
             self.turn = player_index
             self.draw_tile(player_index, from_tail=True)
 
+        self.last_discard = None
+        self.last_discard_player = -1
+        return True
 
     def rollback_kong_scores(self):
         if not self.kong_events:

@@ -10,4 +10,5 @@ COPY . /app
 ENV PORT=7860
 EXPOSE 7860
 
-CMD ["python", "app.py"]
+ENV PYTHONUNBUFFERED=1
+CMD ["sh", "-lc", "echo '[entry] container command started'; echo \"[entry] PORT=$PORT\"; python -u app.py 2>&1"]

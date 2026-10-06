@@ -1,0 +1,70 @@
+/* Only the 1000² world is transformed. Screen UI/own hand are siblings. */
+.table-world {position:absolute;left:0;top:0;width:1000px;height:1000px;transform-origin:0 0;transform:var(--table-projection);pointer-events:none;z-index:1;will-change:transform;}
+.table-surface {position:absolute;inset:0;pointer-events:none;border-radius:var(--table-border-radius,22px);background:var(--table-border-color,var(--table-rim));border:1px solid var(--table-border-line,#9c987b);box-shadow:0 10px 0 var(--table-rim),0 16px 20px #0004;}
+/* Ensemble garments may bleed into the edge; clip only the printed surface,
+   never world tiles, shadows, foreground hands or the screen-space controls. */
+.table-anchored-ensemble .table-surface {overflow:hidden;}
+.table-cloth {position:absolute;inset:calc(var(--table-border-width,14px) * 1.7);border-radius:calc(var(--table-border-radius,22px) - 7px);background:radial-gradient(ellipse at 50% 42%,var(--table-center),var(--table-middle) 60%,var(--table-edge));box-shadow:inset 0 0 0 1px var(--table-border-stitch,#c6b98c60),inset 0 0 28px #0003;}
+/* Longhand survives CSSOM serialization into the isolated preview shadow tree. */
+.table-cloth::before {content:'';position:absolute;inset:0;border-radius:inherit;background-image:var(--table-fabric-image,none);background-size:cover;background-position:center;opacity:var(--table-fabric-opacity,0);pointer-events:none;}
+.table-cloth::after {content:'';position:absolute;inset:0;pointer-events:none;border-radius:inherit;opacity:var(--table-grain,.1);background:repeating-linear-gradient(0deg,#fff2 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,#0002 0 1px,transparent 1px 3px);}
+.table[data-fabric-kind="felt"] .table-cloth::after {background:repeating-linear-gradient(45deg,#b5c7a224 0 1px,transparent 1px 5px),repeating-linear-gradient(-45deg,#0003 0 1px,transparent 1px 5px);}
+.river-shadow {position:absolute;border-radius:10px;background:#000;opacity:.16;filter:blur(6px);pointer-events:none;}
+.river-shadow[hidden] {display:none;}
+.seat-plane,.seat-plane :is(.hand-back,.discards,.melds,.meld-group) {position:absolute;inset:0;display:block;pointer-events:none;z-index:auto;}
+.seat-plane .tile {position:absolute;pointer-events:none;}
+.seat-plane .tile-wall {--r:3px;}
+.seat-plane .tile-wall .tile-face {outline-offset:-2px;}
+.seat-plane .tile-wall .tile-body {height:45%;background:linear-gradient(90deg,var(--ivory-side),var(--back));}
+.center-plate {position:absolute;border:2px solid var(--table-ui-line);border-radius:12px;background:linear-gradient(140deg,var(--table-ui-raised),var(--table-ui-plate));box-shadow:0 8px 0 var(--table-border-color),0 10px 10px #0004;z-index:2;}
+.table .center-info {--wind-size:max(10px,calc(22px * var(--center-scale,1)));left:var(--table-center-x,50%);top:var(--table-center-y);width:var(--center-w);height:var(--center-h);display:grid;grid-template-columns:var(--wind-size) minmax(0,1fr) var(--wind-size);grid-template-rows:var(--wind-size) minmax(0,1fr) var(--wind-size);gap:1px 4px;align-items:center;justify-items:center;pointer-events:none;z-index:4;}
+.table .center-info .wind {position:static;inset:auto;transform:none;width:var(--wind-size);height:var(--wind-size);font-size:max(9px,calc(16px * var(--center-scale,1)));line-height:1;}
+.table .center-info .wind-top {grid-area:1/2;}
+.table .center-info .wind-right {grid-area:2/3;}
+.table .center-info .wind-bottom {grid-area:3/2;}
+.table .center-info .wind-left {grid-area:2/1;}
+.center-body {grid-area:2/2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(0px,calc((var(--center-h) - 70px) * .06),4px);width:100%;min-width:0;min-height:0;}
+.table #round-info {font-size:max(8px,calc(11px * var(--center-scale,1)));line-height:1.15;letter-spacing:0;white-space:nowrap;margin:0;}
+.table #wall-info {gap:3px;line-height:1;}
+.table #wall-count {font-size:clamp(14px,calc((var(--center-h) - var(--wind-size) * 2 - 23px) / 1.05),32px);line-height:1.05;font-variant-numeric:tabular-nums;}
+.table #wall-info>span,.table #turn-info {font-size:max(8px,calc(9px * var(--center-scale,1)));line-height:1.15;}
+.table #turn-info {width:100%;min-width:0;margin:0;}
+.table #current-turn {display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.table #reveal-center {top:var(--table-center-y);}
+.table .player {z-index:3;}
+.table .bottom .hand {isolation:isolate;}
+/* Independent foreground: enlarge width/height together by about 12%.
+   Keep foregroundHandSize() in sync so flat melds retain their clearance. */
+#game-screen {--hand-w:clamp(31px,min(calc((100vw - var(--safe-left) - var(--safe-right)) * .055),calc((100dvh - var(--safe-top) - var(--safe-bottom)) * .108)),88px);--hand-h:calc(var(--hand-w) * 1.36);--hand-block-h:clamp(calc((100dvh - var(--safe-top) - var(--safe-bottom)) * .135),calc(var(--hand-w) * 1.50),calc((100dvh - var(--safe-top) - var(--safe-bottom)) * .152));}
+.hand-foreground {position:absolute;bottom:max(6px,env(safe-area-inset-bottom));left:var(--own-hand-x,50%);transform:translateX(-50%);display:flex;align-items:flex-end;max-width:calc(100% - 6px);z-index:20;}
+.table .bottom .hand {position:relative;left:auto;bottom:auto;transform:none;display:flex;gap:2px;align-items:flex-end;}
+.table .bottom .hand .tile {--tw:var(--hand-w);--th:calc(var(--hand-block-h) - var(--tw) * .14);width:var(--tw);height:var(--hand-block-h);}
+.table .bottom .hand .tile--drawn {margin-left:calc(var(--hand-w) * .38);}
+.table .bottom .avatar {left:2%;bottom:calc(var(--hand-block-h) + 34px);width:155px;flex-direction:row;gap:8px;}
+.table #hand-hint {left:var(--own-hand-x,50%);bottom:calc(var(--hand-block-h) + 15px);max-width:var(--own-hint-w,calc(100% - 32px));overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.table #ting-status {bottom:calc(var(--hand-block-h) + 26px);right:calc(2% + 290px);}
+.table #quick-chat-wrap {bottom:6px;right:1%;}
+.table .top .avatar {top:var(--opponent-avatar-y,7%);left:var(--opponent-avatar-x,63%);right:auto;width:150px;flex-direction:row;align-items:center;gap:8px;}
+.table .top .avatar-art {width:48px;height:48px;flex-shrink:0;}
+.table .top .player-info {align-items:flex-start;width:auto;flex:1;}
+.table .top .player-name {font-size:10px;}
+.table .left .avatar {left:1%;top:40%;width:clamp(65px,8vw,100px);}
+.table .right .avatar {right:1%;top:40%;width:clamp(65px,8vw,100px);}
+@media(max-height:560px) and (orientation:landscape){
+    .table .avatar {gap:3px;}
+    .table .avatar-art {width:30px;height:30px;}
+    .table .left .avatar,.table .right .avatar {width:65px;top:42%;}
+    .table .top .avatar {width:118px;gap:6px;}
+    .table .top .avatar-art {width:30px;height:30px;}
+    .table .top .player-name {font-size:9px;}
+    .table .bottom .avatar {width:130px;bottom:calc(var(--hand-block-h) + 22px);}
+    .table .bottom .avatar-art {width:28px;height:28px;}
+    .table .bottom .player-name {font-size:10px;line-height:1.2;}
+    .table .bottom .player-score {font-size:14px;line-height:1.1;}
+    .table #ting-status {right:calc(2% + 215px);}
+    .table #hand-hint {font-size:9px;}
+}
+.table .player.left .avatar,.table .player.right .avatar {left:var(--side-avatar-x,1%);right:auto;}
+.table .player.compact-avatar .avatar {width:52px;}
+.table .player.compact-avatar .avatar-art {width:26px;height:26px;}
+.table .player.compact-avatar .player-rank {display:none;}

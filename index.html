@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#173f38">
+    <meta name="description" content="湖南红中麻将。创建房间，邀好友同桌，或与人机轻松练牌。">
+    <title>红中麻将 · 一桌好牌</title>
+    <link rel="icon" type="image/svg+xml" href="/static/assets/favicon.svg">
+    <link rel="stylesheet" href="/static/style.css?v=1.9.20">
+    <link rel="stylesheet" href="/static/tiles.css?v=1.9.20">
+    <link rel="stylesheet" href="/static/table-view.css?v=1.9.20">
+    <link rel="stylesheet" href="/static/table-theme.css?v=1.9.20">
+    <link rel="stylesheet" href="/static/table-cues.css?v=1.9.20">
+    <script src="/static/landscape.js?v=1.9.20" type="module"></script>
+    <script src="/static/table-theme.js?v=1.9.20" type="module"></script>
+<link rel="stylesheet" href="/static/lobby.css?v=1.9.20">
+</head>
+<body>
+<svg class="lobby-icon-sprite" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs><linearGradient id="fp" x1="0" x2="1"><stop offset="0" stop-color="#7a5520"/><stop offset=".5" stop-color="#fff1c0"/><stop offset="1" stop-color="#9a6a28"/></linearGradient><linearGradient id="fc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2574a"/><stop offset=".55" stop-color="#b52a2a"/><stop offset="1" stop-color="#6e1414"/></linearGradient><linearGradient id="tb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3f8f7a"/><stop offset=".6" stop-color="#1f5b50"/><stop offset="1" stop-color="#103a33"/></linearGradient><linearGradient id="tg" x1="0" x2="1"><stop offset="0" stop-color="#9a6a28"/><stop offset=".5" stop-color="#fff1c0"/><stop offset="1" stop-color="#9a6a28"/></linearGradient><linearGradient id="gm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3c9"/><stop offset=".45" stop-color="#e2b65a"/><stop offset=".75" stop-color="#8a5a1c"/><stop offset="1" stop-color="#e8c77a"/></linearGradient><radialGradient id="gi" cx=".5" cy=".4" r=".6"><stop offset="0" stop-color="#2b6a5a"/><stop offset="1" stop-color="#0b2724"/></radialGradient><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1c0"/><stop offset=".5" stop-color="#e2b65a"/><stop offset="1" stop-color="#a8742a"/></linearGradient><linearGradient id="fm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1c0"/><stop offset=".5" stop-color="#e2b65a"/><stop offset="1" stop-color="#8a5a1c"/></linearGradient></defs><symbol id="lobby-icon-flag" viewBox="0 0 64 64">
+    <rect x="15" y="9" width="4" height="47" rx="2" fill="url(#fp)"/><circle cx="17" cy="8" r="4" fill="url(#fp)" stroke="#6b4a1a" stroke-width=".8"/>
+    <path d="M19 13 C29 9 35 17 45 13 C49 12 52 11 54 10 L48 21 L55 31 C45 35 39 27 29 31 C25 32 22 33 19 34 Z" fill="url(#fc)" stroke="#5a0f0f" stroke-width="1"/>
+    <path d="M19 13 C29 9 35 17 45 13 C49 12 52 11 54 10" fill="none" stroke="#ff9a7c" stroke-width="1.2" opacity=".75"/>
+    <path d="M29 18 C33 19 36 22 40 20" fill="none" stroke="#ffd6a0" stroke-width="1.4" stroke-linecap="round" opacity=".55"/>
+    <path d="M19 34 L19 40 M19 37 q-3 6 -1 10" fill="none" stroke="#e8c77a" stroke-width="1.6" stroke-linecap="round"/><circle cx="18" cy="48" r="2.4" fill="#e8c77a"/>
+    <ellipse cx="17" cy="57" rx="8" ry="2.2" fill="#0007"/></symbol><symbol id="lobby-icon-tee" viewBox="0 0 64 64">
+    <path d="M23 10 Q32 17 41 10 L54 16 L60 28 L50 33 L48 29 L48 54 Q32 58 16 54 L16 29 L14 33 L4 28 L10 16 Z" fill="url(#tb)" stroke="#0a2622" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M23 10 Q32 17 41 10" fill="none" stroke="url(#tg)" stroke-width="3"/>
+    <path d="M10 16 L4 28 L14 33 M54 16 L60 28 L50 33" fill="none" stroke="url(#tg)" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M16 51 Q32 55 48 51" fill="none" stroke="url(#tg)" stroke-width="1.4"/>
+    <path d="M22 18 Q24 34 21 50" fill="none" stroke="#ffffff30" stroke-width="3" stroke-linecap="round"/>
+    <rect x="27" y="27" width="10" height="12" rx="2" fill="#b52a2a" stroke="url(#tg)" stroke-width="1.2"/><path d="M32 29 v8 M29 32 h6 v3 h-6 z" stroke="#fff1c0" stroke-width="1.1" fill="none"/></symbol><symbol id="lobby-icon-gear" viewBox="0 0 64 64">
+    <path d="M53.00,32.00L57.98,39.36L55.57,45.17L46.85,46.85L46.85,46.85L45.17,55.57L39.36,57.98L32.00,53.00L32.00,53.00L24.64,57.98L18.83,55.57L17.15,46.85L17.15,46.85L8.43,45.17L6.02,39.36L11.00,32.00L11.00,32.00L6.02,24.64L8.43,18.83L17.15,17.15L17.15,17.15L18.83,8.43L24.64,6.02L32.00,11.00L32.00,11.00L39.36,6.02L45.17,8.43L46.85,17.15L46.85,17.15L55.57,18.83L57.98,24.64L53.00,32.00Z" fill="url(#gm)" stroke="#5a3a10" stroke-width="1" stroke-linejoin="round"/>
+    <circle cx="32" cy="32" r="15" fill="url(#gi)" stroke="#5a3a10" stroke-width="1"/><circle cx="32" cy="32" r="12.5" fill="none" stroke="#e8c77a" stroke-width="1.2" stroke-dasharray="2 2.2"/>
+    <circle cx="32" cy="32" r="6" fill="url(#gm)" stroke="#5a3a10" stroke-width="1"/><circle cx="32" cy="32" r="2.4" fill="#0b2724"/>
+    <path d="M17 22 A18 18 0 0 1 30 13" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".5"/></symbol><symbol id="lobby-icon-coupon" viewBox="0 0 56 40">
+    <path d="M4 6 H52 V15 A5 5 0 0 0 52 25 V34 H4 V25 A5 5 0 0 0 4 15 Z" fill="url(#cg)" stroke="#6b4a1a" stroke-width="1.2" transform="rotate(-8 28 20)"/>
+    <g transform="rotate(-8 28 20)"><path d="M18 9 V31" stroke="#8a5a1c" stroke-width="1.2" stroke-dasharray="2 2"/><rect x="24" y="11" width="22" height="18" rx="3" fill="#b52a2a" stroke="#7a1a1a"/><text x="35" y="21" text-anchor="middle" dominant-baseline="central" font-family="HZDisplay, KaiTi, serif" font-size="12" fill="#fff1c0">礼</text><circle cx="11" cy="20" r="3" fill="#b52a2a"/></g></symbol><symbol id="lobby-icon-friends" viewBox="0 0 100 100">
+    <circle cx="50" cy="52" r="44" fill="#0b2724" stroke="url(#fm)" stroke-width="4"/><circle cx="50" cy="52" r="38" fill="none" stroke="#e8c77a" stroke-opacity=".5" stroke-dasharray="3 3"/>
+    <path d="M26 68 h48 l-6 12 h-36 z" fill="url(#fm)"/><rect x="30" y="40" width="14" height="20" rx="2.5" fill="#fffaf0" stroke="#8a5a1c"/><rect x="56" y="40" width="14" height="20" rx="2.5" fill="#fffaf0" stroke="#8a5a1c"/>
+    <text x="37" y="50" text-anchor="middle" dominant-baseline="central" font-size="13" font-family="HZDisplay, KaiTi, serif" fill="#b52a2a">中</text><text x="63" y="50" text-anchor="middle" dominant-baseline="central" font-size="13" font-family="HZDisplay, KaiTi, serif" fill="#1f5b50">發</text>
+    <path d="M44 34 q6 -10 12 0" fill="none" stroke="#e8c77a" stroke-width="2.4" stroke-linecap="round"/></symbol><symbol id="lobby-icon-lock" viewBox="0 0 20 20"><rect x="4" y="9" width="12" height="9" rx="2" fill="#e8c77a"/><path d="M7 9 V6.5 a3 3 0 0 1 6 0 V9" fill="none" stroke="#e8c77a" stroke-width="2"/><circle cx="10" cy="13" r="1.4" fill="#3b2a12"/></symbol><symbol id="lobby-icon-cloth" viewBox="0 0 26 26"><rect x="3" y="6" width="20" height="14" rx="3" fill="currentColor" opacity=".9"/><rect x="5.5" y="8.5" width="15" height="9" rx="1.5" fill="none" stroke="#e8c77a" stroke-width="1"/></symbol><symbol id="lobby-icon-back" viewBox="0 0 26 26"><rect x="7" y="3" width="13" height="18" rx="2.4" fill="#e29936"/><rect x="7" y="18" width="13" height="5" rx="2" fill="#f2ead6"/><rect x="9" y="5" width="9" height="11" rx="1.4" fill="none" stroke="#fff6" stroke-width="1"/></symbol><symbol id="lobby-icon-face" viewBox="0 0 26 26"><rect x="6" y="3" width="14" height="20" rx="2.4" fill="#fffaf0" stroke="currentColor" stroke-width="1.2"/><text x="13" y="13.5" text-anchor="middle" dominant-baseline="central" font-size="11" font-family="HZDisplay, KaiTi, serif" fill="#b52a2a">中</text></symbol><symbol id="lobby-icon-scroll" viewBox="0 0 26 26"><rect x="6" y="5" width="14" height="16" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 10h8M9 13.5h8M9 17h5" stroke="currentColor" stroke-width="1.4"/></symbol></svg>
+    <div id="boot-loading" role="status" tabindex="-1" aria-label="正在准备牌馆">
+        <img class="boot-mark" src="/static/assets/favicon.svg" alt="">
+        <div class="boot-logo">红中麻将</div>
+        <div id="boot-loading-text">正在准备牌馆</div>
+        <div class="boot-progress-row"><progress id="boot-progress" max="1" value="0" aria-label="游戏素材加载进度"></progress><span id="boot-percent" aria-hidden="true">0%</span></div>
+        <div id="boot-loading-sub">牌面、桌布、头像与声音</div>
+        <button id="boot-retry" type="button" hidden aria-label="重新加载未完成的游戏素材">重新加载</button>
+    </div>
+    <div id="app">
+        <div id="cut-in-container" aria-hidden="true"></div>
+        <div id="toast" role="status" class="hidden"></div>
+
+        <div id="results-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="results-title">
+            <div class="modal-content results-content">
+                <span class="eyebrow">这一桌的好牌</span>
+                <h2 id="results-title">本局结算</h2>
+                <div class="score-head"><span>牌友</span><span>本局 / 累计</span></div>
+                <div id="score-list"></div>
+                <button id="result-btn" class="restart-btn">返回大厅</button>
+            </div>
+        </div>
+        <div id="version-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="version-title">
+            <div class="modal-content version-modal-content">
+                <span class="eyebrow">牌馆新事</span>
+                <h2 id="version-title">版本更新</h2>
+                <div id="version-modal-title"></div>
+                <div id="version-modal-content"></div>
+                <div id="version-modal-actions">
+                    <button id="version-log-btn" class="quiet-btn">历史日志</button>
+                    <button id="version-confirm-btn" class="restart-btn">我知道了</button>
+                </div>
+            </div>
+        </div>
+        <div id="rank-screen" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="rank-title">
+            <div class="modal-content rank-modal-content">
+                <span class="eyebrow">进一寸，有一寸的欢喜</span>
+                <h2 id="rank-title">段位变化</h2>
+                <div id="rank-change-summary"></div>
+                <div id="rank-badge-large"></div>
+                <div id="rank-change-stars"></div>
+                <div id="rank-change-tip"></div>
+                <button id="rank-confirm-btn" class="restart-btn hidden">确认返回大厅</button>
+            </div>
+        </div>
+
+        <main class="screen lobby" id="lobby">
+  <button id="lobby-profile-btn" class="profile" type="button" aria-label="个人信息" data-open="profile">
+    <div class="profile-avatar"><img src="/static/assets/avatar-1.svg" alt=""><span class="profile-edit" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#e8c77a" stroke-width="1.6" stroke-linecap="round"><path d="M3 13l1-3 6.5-6.5 2 2L6 12l-3 1Z"/></svg></span></div>
+    <div class="profile-text">
+      <div class="profile-name">锂电池</div>
+      <div class="profile-rank" id="rank-panel"><span class="badge" id="rank-icon"></span>
+        <div class="rank-lines"><span class="rank-name" id="rank-text"></span><span class="rank-stars" id="rank-stars" aria-label="段位星级"></span><span class="rank-season">2026 年 10 月</span></div>
+      </div>
+    </div>
+  </button>
+  <div class="wallet"><div class="coupon" title="礼券"><svg  aria-hidden="true"><use href="#lobby-icon-coupon"/></svg><span>礼券</span><b data-wallet-balance>0</b></div></div>
+
+  <section class="hero">
+    <div class="hero-title"><div class="hero-kicker">湖南红中 · 四人同桌</div><h1 id="lobby-title">一桌红中，<br>几位<em>老友。</em></h1></div>
+    <div class="tableau" aria-hidden="true"><div class="tableau-ring"></div>
+      <div class="hero-tile t1"><img src="/static/assets/tiles/mahjong-soul/19.png?v=1.9.20" alt=""></div>
+      <div class="hero-tile t2"><img src="/static/assets/tiles/mahjong-soul/35.png?v=1.9.20" alt=""></div>
+      <div class="hero-tile t3"><img src="/static/assets/tiles/mahjong-soul/40.png?v=1.9.20" alt=""></div>
+    </div>
+  </section>
+
+  <nav class="modes" aria-label="选择入座方式">
+    <button id="offline-plaque" class="plaque plaque--rank" type="button" aria-label="离线场"><span><span class="plaque-title">离线场</span><span class="plaque-sub">人机对局</span></span><svg class="plaque-emblem" id="offline-plaque-badge"></svg></button>
+    <button id="friend-plaque" class="plaque plaque--friend" type="button" data-open="friend" aria-label="友人场"><span><span class="plaque-title">友人场</span><span class="plaque-sub">好友同桌</span></span><svg class="plaque-emblem"  aria-hidden="true"><use href="#lobby-icon-friends"/></svg></button>
+    <button id="offline-resume-btn" class="resume-chip hidden" type="button" aria-label="继续上次的牌桌">继续上次的牌桌 →</button>
+  </nav>
+
+  <footer class="foot"><span>一张红中，四方牌友。</span><span>锂电池 制作 · <span id="footer-version">v1.9.20</span></span><span id="status-msg" role="status">正在连接牌馆…</span></footer>
+  <nav class="dock" aria-label="牌馆功能">
+    <button class="dock-btn" type="button" id="lobby-activity-btn" aria-label="活动" data-open="activity"><span class="dock-ring"><svg  aria-hidden="true"><use href="#lobby-icon-flag"/></svg></span><span class="dock-label">活动</span><span class="dot" id="summit-dot" aria-label="有可领取奖励" hidden></span></button>
+    <button class="dock-btn" type="button" id="lobby-table-theme-btn" aria-label="装扮" data-table-theme-entry><span class="dock-ring"><svg  aria-hidden="true"><use href="#lobby-icon-tee"/></svg></span><span class="dock-label">装扮</span></button>
+    <button class="dock-btn" type="button" id="lobby-settings-btn" aria-label="设置" data-open="settings"><span class="dock-ring"><svg  aria-hidden="true"><use href="#lobby-icon-gear"/></svg></span><span class="dock-label">设置</span></button>
+  </nav>
+</main>
+<aside id="lobby-staging" hidden><a class="brand"></a><div class="lobby-nav"></div><p class="lobby-slogan"></p><p class="card-description"></p><h2 id="seat-title"></h2><div class="form-group">
+                        <label for="username">你的昵称</label>
+                        <input type="text" id="username" placeholder="1–8 个汉字或字符" maxlength="16" autocomplete="nickname" aria-describedby="nickname-hint" required>
+                        <small id="nickname-hint" class="nickname-hint">1–8 个汉字或字符</small>
+                    </div>
+                    <div class="form-group avatar-pick">
+                        <label>选个头像 <span>牌桌上的小小分身</span></label>
+                        <div id="avatar-options" role="group" aria-label="选择头像">
+                            <button class="avatar-option selected" data-avatar="1" type="button" aria-pressed="true"><img src="/static/assets/avatar-1.svg" alt=""><span>熊猫</span></button>
+                            <button class="avatar-option" data-avatar="2" type="button" aria-pressed="false"><img src="/static/assets/avatar-2.svg" alt=""><span>青龙</span></button>
+                            <button class="avatar-option" data-avatar="3" type="button" aria-pressed="false"><img src="/static/assets/avatar-3.svg" alt=""><span>麒麟</span></button>
+                            <button class="avatar-option" data-avatar="4" type="button" aria-pressed="false"><img src="/static/assets/avatar-4.svg" alt=""><span>锦鲤</span></button>
+                            <button class="avatar-option" data-avatar="5" type="button" aria-pressed="false"><img src="/static/assets/avatar-5.svg" alt=""><span>雄鹰</span></button>
+                        </div>
+                    </div>
+
+                    <div id="room-setup">
+                        <div id="lobby-main-actions" role="tablist" aria-label="选择入座方式">
+                            <button id="create-entry-btn" class="selected" type="button" role="tab" aria-selected="true" aria-controls="create-panel">创建房间</button>
+                            <button id="join-entry-btn" type="button" role="tab" aria-selected="false" aria-controls="join-panel">加入房间</button>
+                        </div>
+                        <div id="create-panel" role="tabpanel" aria-labelledby="create-entry-btn">
+                            <div class="round-choice"><label for="rounds-select">对局局数</label><select id="rounds-select"><option value="1">1 局 · 轻松试手</option><option value="5">5 局 · 小坐片刻</option><option value="10">10 局 · 段位对局</option><option value="15">15 局 · 段位对局</option><option value="20">20 局 · 段位对局</option></select></div>
+                            <button id="create-btn" class="primary-btn" type="button" aria-label="创建牌桌"><span>创建牌桌</span><span aria-hidden="true">→</span></button>
+                        </div>
+                        <div id="join-panel" class="hidden" role="tabpanel" aria-labelledby="join-entry-btn">
+                            <label class="sr-only" for="room-code-input">六位房间号</label>
+                            <input type="text" id="room-code-input" placeholder="输入 6 位房间号" inputmode="numeric" maxlength="6" autocomplete="off">
+                            <button id="join-btn" class="primary-btn" type="button" aria-label="加入牌桌"><span>加入牌桌</span><span aria-hidden="true">→</span></button>
+                        </div>
+                    </div>
+
+                    <div id="room-summary" class="hidden">
+                        <div class="room-summary-title"><span>牌桌已备好</span><button id="copy-room-btn" class="quiet-btn" type="button">复制房间号</button></div>
+                        <strong id="lobby-room-code"></strong>
+                        <div id="room-seats"></div>
+                        <p id="room-waiting-tip">空位由人机补齐，随时开局。</p>
+                    </div>
+                    <button id="start-btn" class="primary-btn hidden" type="button" aria-label="开始对局">开始对局 <span aria-hidden="true">→</span></button>
+                    <button id="leave-btn" class="quiet-btn hidden" type="button" aria-label="离开房间">离开房间</button>
+                    <p id="rank-note">10 / 15 / 20 局整场结束后计入段位</p>
+                    
+                <aside id="daily-task-panel" class="lobby-popover hidden" role="dialog" aria-labelledby="daily-task-title"><div class="popover-heading"><h3 id="daily-task-title">每日任务</h3><button id="daily-task-close" class="close-btn" type="button" aria-label="关闭每日任务">×</button></div><div id="daily-task-list"></div><p class="popover-note">完成后领取奖励，每日零点更新。</p></aside><aside id="changelog-panel" class="lobby-popover hidden" role="dialog" aria-labelledby="changelog-title"><div class="popover-heading"><h3 id="changelog-title">牌馆更新</h3><button id="changelog-close" class="close-btn" type="button" aria-label="关闭更新日志">×</button></div><div id="changelog-content"></div></aside><aside id="rank-help-panel" class="lobby-popover hidden" role="dialog" aria-labelledby="rank-help-title"><div class="popover-heading"><h3 id="rank-help-title">段位规则</h3><button id="rank-help-close" class="close-btn" type="button" aria-label="关闭段位规则">×</button></div><div id="rank-help-content"></div></aside><aside id="rules-panel" class="lobby-popover hidden" role="dialog" aria-labelledby="rules-title"><div class="popover-heading"><h3 id="rules-title">湖南红中 · 玩法说明</h3><button id="rules-close" class="close-btn" type="button" aria-label="关闭玩法说明">×</button></div><div class="rules-copy"><p><b>112 张牌，红中作癞子。</b><br>万、筒、条各 36 张，加 4 张红中。可碰、可杠，不能吃；普通胡牌只可自摸，七对也能胡。</p><p><b>杠有分，流局退回。</b><br>明杠由出牌者付 3 分；暗杠每家付 2 分；补杠每家付 1 分。补杠可被听该牌的玩家抢胡。</p><p><b>自摸抓马，四中直接胡。</b><br>底分 1；有红中抓 4 张马，无红中抓 6 张。1、5、9 和红中每张加 1 底分。手中 4 张红中，每家付 10 分。</p><p><b>碰后等下一次摸牌才能胡。</b><br>首轮四家出同牌（或 1 红中 + 3 同牌），庄家给其余三家各 1 分。</p></div></aside><button id="log-history-btn"></button><button id="rules-entry-btn"></button><button id="daily-task-entry-btn"></button></aside>
+
+        <section id="game-screen" class="screen hidden" aria-label="麻将牌桌">
+            <div class="table" data-table-theme="jade">
+                <div class="table-surface" aria-hidden="true"><div class="table-cloth"></div></div>
+                <header class="game-toolbar">
+                    <div class="game-tools">
+                        <button id="sound-btn" class="table-tool sound-toggle" type="button" aria-pressed="true" aria-label="声音已开启，点击静音" title="关闭声音">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="speaker-body" d="M11 4.8 6.4 8.5H3v7h3.4l4.6 3.7V4.8Z"/><g class="speaker-waves"><path d="M15 8a6 6 0 0 1 0 8M18 5a10.2 10.2 0 0 1 0 14"/></g><path class="speaker-muted" d="m15.5 9 6 6m0-6-6 6"/></svg>
+                        </button>
+                        <label class="auto-hu-label"><input id="auto-hu-toggle" type="checkbox"><span>自动胡牌</span></label><button id="game-leave-btn" class="table-tool" type="button">离开牌桌</button>
+                    </div>
+                </header>
+                <span class="table-corner corner-tl" aria-hidden="true"></span><span class="table-corner corner-tr" aria-hidden="true"></span><span class="table-corner corner-bl" aria-hidden="true"></span><span class="table-corner corner-br" aria-hidden="true"></span>
+                <div class="table-watermark" aria-hidden="true">红中</div>
+
+                <div id="player-2" class="player top"><div class="avatar"></div><div class="table-plane"><div class="hand-back"></div><div class="melds"></div><div class="discards"></div></div></div>
+                <div id="player-3" class="player left"><div class="avatar"></div><div class="table-plane"><div class="hand-back"></div><div class="melds"></div><div class="discards"></div></div></div>
+                <div id="player-1" class="player right"><div class="avatar"></div><div class="table-plane"><div class="hand-back"></div><div class="melds"></div><div class="discards"></div></div></div>
+
+                <div class="center-info">
+                    <span class="wind wind-top" data-relative="2">西</span><span class="wind wind-right" data-relative="1">南</span><span class="wind wind-bottom" data-relative="0">东</span><span class="wind wind-left" data-relative="3">北</span>
+                    <div class="center-body">
+                        <div id="round-info">第 1 / 1 局</div>
+                        <div id="wall-info"><strong id="wall-count">59</strong><span>余牌</span></div>
+                        <div id="turn-info"><span id="current-turn">等待发牌</span></div>
+                    </div>
+                </div>
+                <div id="msg-area" role="status"></div>
+                <div id="reveal-center" class="hidden"></div>
+
+                <div id="player-0" class="player bottom">
+                    <div class="avatar"></div><div class="table-plane"><div class="discards"></div><div class="melds" id="my-melds"></div></div><div class="hand" id="my-hand" aria-label="你的手牌"></div>
+                    <div id="ting-status" class="hidden"><button class="ting-btn" type="button" aria-label="查看听牌" aria-expanded="false">听</button><div class="ting-tooltip" aria-label="可胡的牌"></div></div>
+                    <div id="actions-panel" class="hidden"><div class="cue-claim-tile" hidden aria-hidden="true"><small></small></div><button id="btn-hu" class="action-btn" type="button" aria-label="胡">胡<span>自摸</span></button><button id="btn-gang" class="action-btn" type="button" aria-label="杠">杠<span>开杠</span></button><button id="btn-peng" class="action-btn" type="button" aria-label="碰">碰<span>碰牌</span></button><button id="btn-pass" class="action-btn secondary" type="button" aria-label="过">过<span>跳过</span></button><div class="cue-timer" hidden aria-hidden="true"><i></i></div></div>
+                </div>
+                <div id="hand-hint">牌桌已备好</div>
+                <div id="quick-chat-wrap"><button id="quick-chat-btn" type="button" aria-label="快捷聊天" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 5h14v11H9l-4 4V5Z"/><path d="M8 9h8M8 12h5"/></svg></button><div id="quick-chat-panel" class="hidden"></div></div>
+            </div>
+        </section>
+    </div>
+    <div id="landscape-gate" class="landscape-gate" role="dialog" aria-modal="true" aria-labelledby="landscape-title" aria-describedby="landscape-hint" tabindex="-1" hidden>
+        <div class="landscape-card">
+            <svg class="landscape-mark" viewBox="0 0 100 76" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="24" y="24" width="58" height="34" rx="6"/><path d="M31 33v16M75 39v4M18 47C7 30 20 12 39 12h11m-7-7 7 7-7 7"/></svg>
+            <p class="landscape-eyebrow">红中麻将 · 横屏牌馆</p><h2 id="landscape-title">横过来，入座好牌</h2>
+            <p id="landscape-hint" role="status">牌馆仅支持横屏。横放手机或平板，即可继续。</p>
+            <button id="landscape-enter" type="button">横屏进入</button>
+        </div>
+    </div>
+    <script src="/static/nickname.js?v=1.9.20"></script>
+    <script src="/static/vendor/socket.io.min.js"></script>
+    <script src="/static/script.js?v=1.9.20" type="module"></script>
+</body>
+</html>

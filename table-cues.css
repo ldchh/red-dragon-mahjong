@@ -1,0 +1,64 @@
+/* Screen-space cues; the shared table projection and all face art stay intact. */
+.table {--act-h:clamp(52px,15vh,92px);}
+/* Let foreground controls join the table's screen-space stacking order.
+   The seat is only a wrapper; its former z=3 must not trap the z=45 bar. */
+.table .player.bottom {z-index:auto;}
+.table #actions-panel {position:absolute;left:var(--own-hand-x,50%);right:auto;transform:translateX(-50%);
+    bottom:calc(max(6px,env(safe-area-inset-bottom)) + var(--hand-block-h)*1.18 + 8px);display:flex;
+    gap:calc(var(--act-h)*.14);align-items:center;padding:calc(var(--act-h)*.12) calc(var(--act-h)*.2);
+    border-radius:calc(var(--act-h)*.62);background:linear-gradient(180deg,#0d1715e6,#081110f0);
+    box-shadow:0 0 0 1px #000c,0 0 0 2px #e8c77a,0 0 0 3px #0008,0 10px 28px #000a;
+    z-index:45;animation:cueBarIn .22s cubic-bezier(.2,1.4,.4,1) both;}
+@keyframes cueBarIn {from{opacity:0;transform:translateX(-50%) translateY(12px) scale(.86);}to{opacity:1;transform:translateX(-50%);}}
+.cue-claim-tile {display:flex;flex-direction:column;align-items:center;gap:2px;margin-right:calc(var(--act-h)*.06);}
+.cue-claim-tile .tile {--tw:calc(var(--act-h)*.5);pointer-events:none;}
+.cue-claim-tile small {font:600 max(10px,calc(var(--act-h)*.16))/1 var(--body);color:#f4e3b5;letter-spacing:.06em;white-space:nowrap;}
+.table #actions-panel .action-btn,.table #actions-panel .action-btn:not(.secondary),.table #actions-panel .action-btn.secondary {
+    position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    width:calc(var(--act-h)*1.18);height:var(--act-h);padding:0 0 calc(var(--act-h)*.16);border:0;border-radius:calc(var(--act-h)*.26);
+    font:max(26px,calc(var(--act-h)*.5))/1 HZDisplay,var(--display);color:#fff;letter-spacing:0;
+    background:linear-gradient(180deg,var(--c1),var(--c2) 58%,var(--c3));text-shadow:0 2px 0 #0009,0 0 1px #000;
+    box-shadow:inset 0 2px 0 #ffffff66,inset 0 -4px 0 #0000004d,0 0 0 2px #fff3c9,0 0 0 3.5px var(--c3),0 5px 0 #0007,0 8px 16px #0008;}
+.table #actions-panel .action-btn>span {position:absolute;left:0;right:0;bottom:calc(var(--act-h)*.08);margin:0;
+    font:600 max(10px,calc(var(--act-h)*.14))/1 var(--body);color:#ffffffd9;text-shadow:0 1px 0 #0008;letter-spacing:0;}
+.table #btn-peng {--c1:#5fb2ff;--c2:#2a7be0;--c3:#163f86;}
+.table #btn-gang {--c1:#c591ff;--c2:#8a4fe0;--c3:#43217a;}
+.table #actions-panel #btn-hu {--c1:#ffb35a;--c2:#e8452f;--c3:#8c1a14;width:calc(var(--act-h)*1.34);}
+.table #actions-panel .action-btn.secondary {--c1:#93a19e;--c2:#5c6b69;--c3:#2d3534;width:var(--act-h);height:calc(var(--act-h)*.82);font-size:calc(var(--act-h)*.4);}
+.table #actions-panel .action-btn:not(.secondary)::after {content:'';position:absolute;inset:-5px;border-radius:inherit;pointer-events:none;
+    box-shadow:0 0 0 2px var(--c1),0 0 16px 2px var(--c1);opacity:0;animation:cueGlow 1.4s ease-in-out .25s infinite;}
+.table #actions-panel .action-btn.cue-primary::after {animation-duration:1.1s;}
+@keyframes cueGlow {0%,100% {opacity:.15;}50% {opacity:.9;}}
+.table #actions-panel .action-btn:hover {transform:translateY(-3px);filter:brightness(1.08);}
+.table #actions-panel .action-btn:active {transform:translateY(2px);}
+.cue-timer {position:absolute;left:14%;right:14%;bottom:3px;height:3px;border-radius:2px;background:#ffffff26;overflow:hidden;}
+.cue-timer i {display:block;height:100%;background:linear-gradient(90deg,#ffd23f,#ff8a3d);transform-origin:left;animation:cueDrain 8s linear forwards;}
+@keyframes cueDrain {to{transform:scaleX(0);}}
+.cue-claim-tile[hidden],.cue-timer[hidden] {display:none;}
+.table.cue-claim-open #hand-hint {visibility:hidden;}
+.table #kong-picker {bottom:var(--cue-picker-bottom,calc(var(--hand-block-h)*1.18 + 120px));z-index:46;}
+.discard-spot {position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:35;contain:layout style;}
+.discard-spot g {transform-box:fill-box;transform-origin:center;}
+.discard-spot path {fill:none;stroke-linejoin:round;}
+.discard-spot .glow {stroke:#ff3344;stroke-width:4.5;opacity:.2;will-change:opacity;
+    animation:cueSpotPulse var(--cue-spot-period,1.6s) ease-in-out .5s infinite;}
+.discard-spot .rim {stroke:#8c1420;stroke-width:4;opacity:.55;}
+.discard-spot .gold {stroke:#ff3344;stroke-width:3;}
+@keyframes cueSpotPulse {
+    0%,100% {opacity:.15;}
+    50% {opacity:.35;}
+}
+.discard-pin {position:absolute;pointer-events:none;z-index:36;width:10px;height:8px;
+    transform:translate(-50%,-100%);animation:cuePin 1.1s ease-in-out infinite;}
+.discard-pin path {fill:#ff3344;stroke:#8c1420;stroke-width:1;stroke-linejoin:round;}
+@keyframes cuePin {0%,100% {translate:0 0;}50% {translate:0 -1px;}}
+.table.cue-claim-open .discard-spot {--cue-spot-period:.9s;}
+.discard-spot[hidden],.discard-pin[hidden] {display:none;}
+@media(prefers-reduced-motion:reduce) {
+    .discard-spot,.discard-spot g,.discard-spot .glow,.discard-pin,.table #actions-panel,.table #actions-panel .action-btn,
+    .table #actions-panel .action-btn::after,.table #actions-panel .cue-timer i {animation:none;}
+    .table #actions-panel .action-btn:not(.secondary)::after {opacity:.15;}
+    .table #actions-panel .action-btn.cue-primary::after {opacity:.6;}
+    .discard-spot .glow {opacity:.25;}
+    .table #actions-panel .action-btn:hover,.table #actions-panel .action-btn:active {transform:none;}
+}

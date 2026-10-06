@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="164" viewBox="0 0 120 164" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="ground" x1="0" y1="0" x2=".72" y2="1">
+      <stop stop-color="#bacfe8"/>
+      <stop offset=".46" stop-color="#c8ceed"/>
+      <stop offset="1" stop-color="#cebfe0"/>
+    </linearGradient>
+    <radialGradient id="satin" cx=".31" cy=".19" r=".9">
+      <stop stop-color="#e7edf8" stop-opacity=".24"/>
+      <stop offset=".64" stop-color="#e7edf8" stop-opacity="0"/>
+      <stop offset="1" stop-color="#9e90bc" stop-opacity=".13"/>
+    </radialGradient>
+    <linearGradient id="etch" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#7b9abb"/>
+      <stop offset="1" stop-color="#9580b2"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#ground)" d="M0 0h120v164H0z"/>
+  <path fill="url(#satin)" d="M0 0h120v164H0z"/>
+  <!-- Quiet satin facets rather than noise, grids or dots under the ink. -->
+  <path fill="#e3e8fa" fill-opacity=".10" d="M0 0h36L9 23v49H0zM120 164H90l20-24v-36h10z"/>
+  <g fill="none" stroke="url(#etch)" stroke-width="1.25" stroke-opacity=".42" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 47V19l12-12h26M11 41V24l13-12h14M6 59v9M24 7v9l-7 7v9"/>
+    <path d="M76 7h23l15 15v23M89 12h8l12 13v8M114 56v11M108 41v10l6 6"/>
+    <path d="M6 109v33l15 15h21M11 128v12l12 12h9M6 94v6M24 157v-8l-7-7v-5"/>
+    <path d="M78 157h24l12-12v-28M89 152h11l9-10v-9M114 102v6M108 127v-10l6-6"/>
+  </g>
+  <g fill="none" stroke="#f3f0fb" stroke-width=".8" stroke-opacity=".34">
+    <path d="M5 44V18L18 5h25M76 5h24l15 15v23M5 111v33l15 15h20M79 159h24l13-13v-28"/>
+  </g>
+</svg>
